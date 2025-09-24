@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ইসলামিক কুইজ - Islamic Knowledge Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- হোম স্ক্রিন -->
+        <div id="homeScreen" class="screen active">
+            <div class="header">
+                <h1>ইসলামিক কুইজ</h1>
+                <p>ইসলামিক জ্ঞান পরীক্ষা করুন এবং শিখুন</p>
+            </div>
+            <div class="settings-panel">
+                <div class="setting-item">
+                    <label for="categorySelect">বিষয় নির্বাচন করুন:</label>
+                    <select id="categorySelect">
+                        <option value="all">সব বিষয়</option>
+                        <option value="quran">কুরআন</option>
+                        <option value="hadith">হাদিস</option>
+                        <option value="history">ইসলামি ইতিহাস</option>
+                        <option value="fiqh">ফিকহ</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="timeSelect">প্রতিটি প্রশ্নের সময়:</label>
+                    <select id="timeSelect">
+                        <option value="15">১৫ সেকেন্ড</option>
+                        <option value="20">২০ সেকেন্ড</option>
+                        <option value="30">৩০ সেকেন্ড</option>
+                        <option value="0">সময় সীমা নেই</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="soundToggle" checked> শব্দ চালু রাখুন
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="vibrationToggle" checked> ভাইব্রেশন চালু রাখুন
+                    </label>
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="startQuiz" class="btn primary">কুইজ শুরু করুন</button>
+                <button id="showLeaderboard" class="btn secondary">লিডারবোর্ড</button>
+                <button id="toggleTheme" class="btn outline">থিম পরিবর্তন</button>
+            </div>
+        </div>
+
+        <!-- কুইজ স্ক্রিন -->
+        <div id="quizScreen" class="screen">
+            <div class="quiz-header">
+                <div class="quiz-info">
+                    <span id="questionCounter">প্রশ্ন: ১/১০</span>
+                    <span id="timer">১৫</span>
+                </div>
+                <div class="score-display">
+                    স্কোর: <span id="currentScore">০</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="question-container">
+                <h2 id="questionText">এখানে প্রশ্নটি দেখানো হবে</h2>
+                <div id="optionsContainer" class="options-container">
+                    <!-- অপশনগুলি ডায়নামিকভাবে যোগ হবে -->
+                </div>
+            </div>
+            <div class="quiz-controls">
+                <button id="nextQuestion" class="btn primary" disabled>পরবর্তী প্রশ্ন</button>
+            </div>
+        </div>
+
+        <!-- ফলাফল স্ক্রিন -->
+        <div id="resultScreen" class="screen">
+            <div class="result-header">
+                <h2>কুইজ সম্পন্ন!</h2>
+                <div class="result-badge" id="resultBadge">
+                    <!-- ব্যাজ এখানে যোগ হবে -->
+                </div>
+            </div>
+            <div class="result-stats">
+                <div class="stat-item">
+                    <span class="stat-label">মোট স্কোর</span>
+                    <span class="stat-value" id="finalScore">০</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">সঠিক উত্তর</span>
+                    <span class="stat-value" id="correctAnswers">০/১০</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">ভুল উত্তর</span>
+                    <span class="stat-value" id="wrongAnswers">০/১০</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">খেলার সময়</span>
+                    <span class="stat-value" id="timeTaken">০:০০</span>
+                </div>
+            </div>
+            <div class="achievements" id="achievementsContainer">
+                <!-- অ্যাচিভমেন্টগুলি এখানে যোগ হবে -->
+            </div>
+            <div class="button-group">
+                <button id="playAgain" class="btn primary">আবার খেলুন</button>
+                <button id="shareResult" class="btn secondary">ফলাফল শেয়ার করুন</button>
+                <button id="backToHome" class="btn outline">হোমে ফিরে যান</button>
+            </div>
+        </div>
+
+        <!-- লিডারবোর্ড স্ক্রিন -->
+        <div id="leaderboardScreen" class="screen">
+            <div class="leaderboard-header">
+                <h2>লিডারবোর্ড</h2>
+                <button id="backFromLeaderboard" class="btn outline">ফিরে যান</button>
+            </div>
+            <div class="leaderboard-list" id="leaderboardList">
+                <!-- লিডারবোর্ড এন্ট্রিগুলি এখানে যোগ হবে -->
+            </div>
+        </div>
+    </div>
+
+    <!-- অডিও এলিমেন্ট -->
+    <audio id="correctSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA"></audio>
+    <audio id="wrongSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA"></audio>
+    <audio id="timeUpSound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA"></audio>
+
+    <script src="questions.json"></script>
+    <script src="script.js"></script>
+</body>
+</html>
