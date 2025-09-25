@@ -9,7 +9,7 @@
 <body>
   <div class="app" id="app">
     <header class="topbar">
-      <h1>ইসলামিক কুইজ</h1>
+      <h1>📖 ইসলামিক কুইজ</h1>
       <div class="top-controls">
         <button id="toggle-theme" aria-label="Toggle theme">🌓</button>
         <label class="switch">
@@ -20,6 +20,8 @@
     </header>
 
     <main class="container">
+
+      <!-- ওয়েলকাম স্ক্রিন -->
       <section id="welcome" class="card">
         <h2>শুরু করতে প্রস্তুত?</h2>
         <p>ইসলামিক সাধারণ জ্ঞান—দ্রুত উত্তর দিলে বোনাস, ধারাবাহিক সঠিক উত্তরে এক্সট্রা বোনাস।</p>
@@ -38,23 +40,27 @@
         <button id="start-btn" class="primary">কুইজ শুরু করুন</button>
       </section>
 
+      <!-- কুইজ সেকশন -->
       <section id="quiz" class="card hidden">
-        <div class="meta">
-          <div id="category">খানা: ইসলাম</div>
-          <div id="timer">--</div>
+        <!-- লাইভ স্ট্যাটস -->
+        <div id="stats-bar">
+          🏆 স্কোর: <span id="live-score">0</span> |
+          ✅ সঠিক: <span id="live-correct">0</span> |
+          ❌ ভুল: <span id="live-wrong">0</span> |
+          ⏳ <span id="timer">--</span>
         </div>
+
         <div id="question-box">
-          <h3 id="question-text">প্রশ্ন এখানে দেখবে</h3>
+          <h3 id="question-text">প্রশ্ন এখানে দেখাবে</h3>
           <div id="options" class="options"></div>
         </div>
-        <div class="controls">
-          <div id="feedback" class="feedback"></div>
-          <button id="next-btn" class="secondary">পরবর্তী</button>
-        </div>
+
+        <div id="feedback" class="feedback"></div>
       </section>
 
+      <!-- রেজাল্ট -->
       <section id="result" class="card hidden">
-        <h2>ফলাফল</h2>
+        <h2>📊 ফলাফল</h2>
         <p id="result-summary"></p>
         <div id="result-stats"></div>
         <div class="row">
@@ -63,15 +69,16 @@
         </div>
       </section>
 
+      <!-- লোকাল লিডারবোর্ড -->
       <section id="leaderboard" class="card">
-        <h3>লোকাল হাইস্কোর (Top 10)</h3>
+        <h3>🏅 লোকাল হাইস্কোর (Top 10)</h3>
         <ol id="leaderboard-list"></ol>
       </section>
 
     </main>
 
     <footer class="footer">
-      <small>ডিজাইন: মোবাইল-ফ্রেন্ডলি | বাংলা | ডার্ক/লাইট মোড</small>
+      <small>মোবাইল-ফ্রেন্ডলি | বাংলা | ডার্ক/লাইট মোড</small>
     </footer>
   </div>
 
