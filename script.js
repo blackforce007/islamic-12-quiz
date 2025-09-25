@@ -1,19 +1,23 @@
 // script.js
 const app = (() => {
-  // DOM
+  // DOM Shortcuts
   const el = (id) => document.getElementById(id);
-  const startBtn = el('start-btn');
-  const quizSec = el('quiz');
-  const welcomeSec = el('welcome');
-  const resultSec = el('result');
-  const questionText = el('question-text');
-  const optionsBox = el('options');
-  const timerEl = el('timer');
-  const nextBtn = el('next-btn');
-  const feedbackEl = el('feedback');
-  const playAgain = el('play-again');
-  const resultSummary = el('result-summary');
-  const resultStats = el('result-stats');
+  const startBtn = el("start-btn");
+  const quizSec = el("quiz");
+  const welcomeSec = el("welcome");
+  const resultSec = el("result");
+  const questionText = el("question-text");
+  const optionsBox = el("options");
+  const timerEl = el("timer");
+  const feedbackEl = el("feedback");
+  const playAgain = el("play-again");
+  const resultSummary = el("result-summary");
+  const resultStats = el("result-stats");
+
+  // Live stats
+  const liveScoreEl = el("live-score");
+  const liveCorrectEl = el("live-correct");
+  const liveWrongEl = el("live-wrong");
 
   // State
   let questions = [];
@@ -56,12 +60,13 @@ const app = (() => {
 
   function startQuiz() {
     if (questions.length === 0) {
-      alert("প্রশ্ন লোড হয়নি।");
+      alert("❌ প্রশ্ন লোড হয়নি।");
       return;
     }
     score = 0;
     correctCount = 0;
     wrongCount = 0;
+    updateLiveStats();
     prepareQueue();
     welcomeSec.classList.add("hidden");
     resultSec.classList.add("hidden");
@@ -80,7 +85,9 @@ const app = (() => {
   function renderQuestion(q) {
     questionText.textContent = q.question;
     optionsBox.innerHTML = "";
+    feedbackEl.innerHTML = "";
     timerEl.textContent = `${totalTime}s`;
+
     q.options.forEach((opt, i) => {
       const b = document.createElement("button");
       b.className = "option-btn";
@@ -93,21 +100,24 @@ const app = (() => {
   function selectOption(idx, btn) {
     stopTimer();
     const isCorrect = idx === current.answer;
+
     if (isCorrect) {
       btn.classList.add("option-correct");
       score += 10;
       correctCount++;
-      feedbackEl.textContent = "✅ সঠিক উত্তর!";
+      feedbackEl.innerHTML = `<div class="big-symbol correct">✅</div><p>সঠিক উত্তর!</p>`;
     } else {
       btn.classList.add("option-wrong");
       const correctBtn = [...optionsBox.children][current.answer];
       if (correctBtn) correctBtn.classList.add("option-correct");
       score = Math.max(0, score - 5);
       wrongCount++;
-      feedbackEl.textContent = "❌ ভুল উত্তর!";
+      feedbackEl.innerHTML = `<div class="big-symbol wrong">❌</div><p>ভুল উত্তর!</p>`;
     }
+
+    updateLiveStats();
     [...optionsBox.children].forEach((b) => (b.disabled = true));
-    setTimeout(nextQuestion, 1000);
+    setTimeout(nextQuestion, 1200);
   }
 
   function startTimer(sec) {
@@ -119,8 +129,9 @@ const app = (() => {
       if (timeLeft <= 0) {
         stopTimer();
         wrongCount++;
-        feedbackEl.textContent = "⏰ সময় শেষ!";
-        setTimeout(nextQuestion, 800);
+        feedbackEl.innerHTML = `<div class="big-symbol wrong">⏰</div><p>সময় শেষ!</p>`;
+        updateLiveStats();
+        setTimeout(nextQuestion, 1000);
       }
     }, 1000);
   }
@@ -136,9 +147,10 @@ const app = (() => {
     stopTimer();
     quizSec.classList.add("hidden");
     resultSec.classList.remove("hidden");
-    resultSummary.textContent = `আপনার স্কোর: ${score}`;
+    resultSummary.textContent = `আপনার মোট স্কোর: ${score}`;
     resultStats.innerHTML = `
-      <p>সঠিক: ${correctCount} | ভুল: ${wrongCount}</p>
+      <p>✅ সঠিক: ${correctCount}</p>
+      <p>❌ ভুল: ${wrongCount}</p>
     `;
   }
 
@@ -146,6 +158,12 @@ const app = (() => {
     welcomeSec.classList.remove("hidden");
     resultSec.classList.add("hidden");
     quizSec.classList.add("hidden");
+  }
+
+  function updateLiveStats() {
+    liveScoreEl.textContent = score;
+    liveCorrectEl.textContent = correctCount;
+    liveWrongEl.textContent = wrongCount;
   }
 
   // Boot
