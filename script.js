@@ -1,4 +1,3 @@
-// script.js
 const app = (() => {
   // DOM Shortcuts
   const el = (id) => document.getElementById(id);
@@ -38,17 +37,20 @@ const app = (() => {
     }
   };
 
+  // Load questions from JSON
   function loadQuestions() {
     return fetch("./questions.json")
       .then((r) => r.json())
       .catch(() => []);
   }
 
+  // Prepare question queue
   function prepareQueue() {
     queue = questions.map((q) => q.id);
     shuffle(queue);
   }
 
+  // Pick next question
   function pickNext() {
     if (queue.length === 0) {
       finishQuiz();
@@ -58,6 +60,7 @@ const app = (() => {
     return questions.find((q) => q.id === id);
   }
 
+  // Start quiz
   function startQuiz() {
     if (questions.length === 0) {
       alert("❌ প্রশ্ন লোড হয়নি।");
@@ -74,6 +77,7 @@ const app = (() => {
     nextQuestion();
   }
 
+  // Show next question
   function nextQuestion() {
     stopTimer();
     current = pickNext();
@@ -82,6 +86,7 @@ const app = (() => {
     startTimer(totalTime);
   }
 
+  // Render question and options
   function renderQuestion(q) {
     questionText.textContent = q.question;
     optionsBox.innerHTML = "";
@@ -97,6 +102,7 @@ const app = (() => {
     });
   }
 
+  // Handle option selection
   function selectOption(idx, btn) {
     stopTimer();
     const isCorrect = idx === current.answer;
@@ -120,6 +126,7 @@ const app = (() => {
     setTimeout(nextQuestion, 1200);
   }
 
+  // Start timer
   function startTimer(sec) {
     timeLeft = sec;
     timerEl.textContent = `${timeLeft}s`;
@@ -131,6 +138,9 @@ const app = (() => {
         wrongCount++;
         feedbackEl.innerHTML = `<div class="big-symbol wrong">⏰</div><p>সময় শেষ!</p>`;
         updateLiveStats();
+        const correctBtn = [...optionsBox.children][current.answer];
+        if (correctBtn) correctBtn.classList.add("option-correct");
+        [...optionsBox.children].forEach((b) => (b.disabled = true));
         setTimeout(nextQuestion, 1000);
       }
     }, 1000);
@@ -143,6 +153,7 @@ const app = (() => {
     }
   }
 
+  // Finish quiz
   function finishQuiz() {
     stopTimer();
     quizSec.classList.add("hidden");
@@ -154,12 +165,14 @@ const app = (() => {
     `;
   }
 
+  // Restart quiz
   function restartQuiz() {
     welcomeSec.classList.remove("hidden");
     resultSec.classList.add("hidden");
     quizSec.classList.add("hidden");
   }
 
+  // Update live stats
   function updateLiveStats() {
     liveScoreEl.textContent = score;
     liveCorrectEl.textContent = correctCount;
